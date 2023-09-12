@@ -104,6 +104,8 @@ pub struct SplitTunnelSettings {
     pub enable_exclusions: bool,
     /// List of applications to exclude from the tunnel.
     pub apps: HashSet<PathBuf>,
+    /// List of applications to include in the tunnel.
+    pub apps_included: HashSet<PathBuf>,
 }
 
 impl Default for Settings {
@@ -133,7 +135,12 @@ impl Default for Settings {
             tunnel_options: TunnelOptions::default(),
             show_beta_releases: false,
             #[cfg(windows)]
-            split_tunnel: SplitTunnelSettings::default(),
+            split_tunnel: SplitTunnelSettings {
+                enable_exclusions: false,
+                apps: HashSet::new(),
+                // NEW LINE: initialize the apps_included field
+                apps_included: HashSet::new(),
+            },
             settings_version: CURRENT_SETTINGS_VERSION,
             custom_lists: CustomListsSettings::default(),
         }
